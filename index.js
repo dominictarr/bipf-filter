@@ -4,6 +4,7 @@ var bipf = require('bipf')
 
 function createEQ ([path, value]) {
   return function EQ (b, start) {
+    start = start | 0
     for(var i = 0; i < path.length; i++) {
       start = bipf.seekKey(b, start, path[i])
       if(start == -1) return false
@@ -15,7 +16,6 @@ function createEQ ([path, value]) {
 function createAND (_rules) {
   var rules = _rules.map(createRules)
   return function AND (b, start) {
-    var start = 0
     for(var i = 0; i < rules.length; i++)
       if(rules[i](b, start) === false) return false
     return true
@@ -53,7 +53,6 @@ function createRules (rule) {
 
 module.exports = function createFilter (_rule) {
   var rule = createRules(_rule)
-  return function (b) {
-    return rule(b, 0)
-  }
+  //return a function that only takes one arg, so can be passed to Array#filter
+  return function (b) { return rule(b, 0) }
 }
