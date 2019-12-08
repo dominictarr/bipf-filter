@@ -3,6 +3,11 @@ var bipf = require('bipf')
 //[[path..., value]]
 
 function createEQ ([path, value]) {
+  if(!Buffer.isBuffer(value)) {
+    var b = Buffer.alloc(bipf.encodingLength(value))
+    bipf.encode(value, b, 0)
+    value = b
+  }
   return function EQ (b, start) {
     start = start | 0
     for(var i = 0; i < path.length; i++) {
