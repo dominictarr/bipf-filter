@@ -8,7 +8,8 @@
     "url": "git://github.com/dominictarr/bipf-filter.git"
   },
   "dependencies": {
-    "bipf": "^1.3.0"
+    "bipf": "^1.3.0",
+    "push-stream": "11"
   },
   "devDependencies": {
     "tape": "^4.11.0"
